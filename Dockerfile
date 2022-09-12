@@ -118,6 +118,8 @@ RUN chmod +x /usr/bin/openstreetmap-tiles-update-expire.sh \
 COPY postgresql.custom.conf.tmpl /etc/postgresql/14/main/
 RUN chown -R postgres:postgres /var/lib/postgresql \
 && chown postgres:postgres /etc/postgresql/14/main/postgresql.custom.conf.tmpl \
+&& sed -i 's/#password_encryption = scram-sha-256/password_encryption = md5/' /etc/postgresql/14/main/postgresql.conf \
+&& echo "host all all 127.0.0.1/32 md5" >> /etc/postgresql/14/main/pg_hba.conf \
 && echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/14/main/pg_hba.conf \
 && echo "host all all ::/0 md5" >> /etc/postgresql/14/main/pg_hba.conf
 
